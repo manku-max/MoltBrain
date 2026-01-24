@@ -1,0 +1,18 @@
+{
+  "name": "nhevers",
+  "owner": {
+    "name": ""
+  },
+  "metadata": {
+    "description": "Plugins by  (nhevers)",
+    "homepage": "https://github.com/nhevers/claude-recall"
+  },
+  "plugins": [
+    {
+      "name": "claude-recall",
+      "version": "9.0.9",
+      "source": "./extension",
+      "description": "Persistent memory system for Claude Code - context compression across sessions"
+    }
+  ]
+}
