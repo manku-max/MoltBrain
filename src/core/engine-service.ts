@@ -5,7 +5,6 @@
  * Delegates to specialized modules:
  * - src/core/server/ - HTTP server, middleware, error handling
  * - src/core/infrastructure/ - Process management, health monitoring, shutdown
- * - src/core/integrations/ - IDE integrations (Cursor)
  * - src/core/worker/ - Business logic, routes, agents
  */
 
@@ -40,12 +39,6 @@ import { performGracefulShutdown } from './infra/GracefulShutdown.js';
 
 // Server imports
 import { Server } from './api/Server.js';
-
-// Integration imports
-import {
-  updateCursorContextForProject,
-  handleCursorCommand
-} from './adapters/CursorHooksInstaller.js';
 
 // Service layer imports
 import { DatabaseManager } from './engine/DatabaseManager.js';
@@ -589,18 +582,12 @@ async function main() {
       process.exit(0);
     }
 
-    case 'cursor': {
-      const subcommand = process.argv[3];
-      const cursorResult = await handleCursorCommand(subcommand, process.argv.slice(4));
-      process.exit(cursorResult);
-    }
-
     case 'hook': {
       const platform = process.argv[3];
       const event = process.argv[4];
       if (!platform || !event) {
         console.error('Usage: claude-recall hook <platform> <event>');
-        console.error('Platforms: claude-code, cursor, raw');
+        console.error('Platforms: claude-code, raw');
         console.error('Events: context, session-init, observation, summarize, user-message');
         process.exit(1);
       }

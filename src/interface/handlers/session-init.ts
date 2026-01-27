@@ -63,9 +63,8 @@ export const sessionInitHandler: EventHandler = {
       return { continue: true, suppressOutput: true };
     }
 
-    // Only initialize SDK agent for Claude Code (not Cursor)
-    // Cursor doesn't use the SDK agent - it only needs session/observation storage
-    if (input.platform !== 'cursor' && sessionDbId) {
+    // Initialize SDK agent for Claude Code
+    if (sessionDbId) {
       // Strip leading slash from commands for memory agent
       // /review 101 -> review 101 (more semantic for observations)
       const cleanedPrompt = prompt.startsWith('/') ? prompt.substring(1) : prompt;
@@ -83,8 +82,6 @@ export const sessionInitHandler: EventHandler = {
       if (!response.ok) {
         throw new Error(`SDK agent start failed: ${response.status}`);
       }
-    } else if (input.platform === 'cursor') {
-      logger.debug('HOOK', 'session-init: Skipping SDK agent init for Cursor platform', { sessionDbId, promptNumber });
     }
 
     logger.info('HOOK', `INIT_COMPLETE | sessionDbId=${sessionDbId} | promptNumber=${promptNumber} | project=${project}`, {

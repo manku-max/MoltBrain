@@ -1,6 +1,5 @@
 /**
- * Integrations module - IDE integrations (Cursor, etc.)
+ * Integrations module - IDE integrations
  */
 
 export * from './types.js';
-export * from './CursorHooksInstaller.js';
