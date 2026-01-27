@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "locale": "fr",
+    "name": "Français",
+    "direction": "ltr"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "export": "Exporter",
+    "import": "Importer",
+    "refresh": "Actualiser",
+    "close": "Fermer",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "all": "Tout",
+    "none": "Aucun",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "nav": {
+    "timeline": "Chronologie",
+    "sessions": "Sessions",
+    "search": "Recherche",
+    "settings": "Paramètres",
+    "favorites": "Favoris",
+    "tags": "Étiquettes",
+    "stats": "Statistiques"
+  },
+  "timeline": {
+    "title": "Chronologie",
+    "today": "Aujourd'hui",
+    "yesterday": "Hier",
+    "thisWeek": "Cette semaine",
+    "thisMonth": "Ce mois",
+    "older": "Plus ancien",
+    "noObservations": "Aucune observation pour le moment",
+    "loadMore": "Charger plus"
+  },
+  "session": {
+    "title": "Session",
+    "summary": "Résumé",
+    "observations": "Observations",
+    "duration": "Durée",
+    "prompts": "Prompts",
+    "filesModified": "Fichiers modifiés",
+    "filesRead": "Fichiers lus",
+    "tokensUsed": "Tokens utilisés",
+    "noSummary": "Aucun résumé disponible"
+  },
+  "observation": {
+    "types": {
+      "discovery": "Découverte",
+      "decision": "Décision",
+      "implementation": "Implémentation",
+      "issue": "Problème",
+      "learning": "Apprentissage",
+      "reference": "Référence"
+    },
+    "facts": "Faits clés",
+    "concepts": "Concepts",
+    "files": "Fichiers",
+    "addToFavorites": "Ajouter aux favoris",
+    "removeFromFavorites": "Retirer des favoris"
+  },
+  "search": {
+    "placeholder": "Rechercher des observations...",
+    "noResults": "Aucun résultat",
+    "resultsCount": "{{count}} résultats",
+    "filters": {
+      "type": "Type",
+      "project": "Projet",
+      "dateRange": "Période",
+      "favorites": "Favoris uniquement"
+    }
+  },
+  "settings": {
+    "title": "Paramètres",
+    "general": "Général",
+    "appearance": "Apparence",
+    "advanced": "Avancé",
+    "theme": {
+      "label": "Thème",
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Système"
+    },
+    "language": {
+      "label": "Langue"
+    },
+    "provider": {
+      "label": "Fournisseur IA",
+      "claude": "Claude",
+      "gemini": "Gemini",
+      "openrouter": "OpenRouter"
+    },
+    "mode": {
+      "label": "Mode d'observation"
+    },
+    "port": {
+      "label": "Port du serveur"
+    },
+    "saved": "Paramètres enregistrés"
+  },
+  "export": {
+    "title": "Exporter les données",
+    "format": "Format",
+    "dateRange": "Période",
+    "project": "Projet",
+    "includeObservations": "Inclure les observations",
+    "includeSummaries": "Inclure les résumés",
+    "download": "Télécharger"
+  },
+  "stats": {
+    "title": "Statistiques",
+    "totalObservations": "Total des observations",
+    "totalSessions": "Total des sessions",
+    "totalProjects": "Projets",
+    "tokensUsed": "Tokens utilisés",
+    "byType": "Par type",
+    "byProject": "Par projet",
+    "overTime": "Dans le temps"
+  },
+  "errors": {
+    "generic": "Une erreur s'est produite",
+    "notFound": "Non trouvé",
+    "networkError": "Erreur réseau",
+    "serverError": "Erreur serveur",
+    "unauthorized": "Non autorisé"
+  },
+  "time": {
+    "justNow": "À l'instant",
+    "minutesAgo": "Il y a {{count}} minutes",
+    "hoursAgo": "Il y a {{count}} heures",
+    "daysAgo": "Il y a {{count}} jours",
+    "weeksAgo": "Il y a {{count}} semaines"
+  }
+}
