@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "locale": "en",
+    "name": "English",
+    "direction": "ltr"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "all": "All",
+    "none": "None",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "nav": {
+    "timeline": "Timeline",
+    "sessions": "Sessions",
+    "search": "Search",
+    "settings": "Settings",
+    "favorites": "Favorites",
+    "tags": "Tags",
+    "stats": "Statistics"
+  },
+  "timeline": {
+    "title": "Timeline",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "older": "Older",
+    "noObservations": "No observations yet",
+    "loadMore": "Load more"
+  },
+  "session": {
+    "title": "Session",
+    "summary": "Summary",
+    "observations": "Observations",
+    "duration": "Duration",
+    "prompts": "Prompts",
+    "filesModified": "Files Modified",
+    "filesRead": "Files Read",
+    "tokensUsed": "Tokens Used",
+    "noSummary": "No summary available"
+  },
+  "observation": {
+    "types": {
+      "discovery": "Discovery",
+      "decision": "Decision",
+      "implementation": "Implementation",
+      "issue": "Issue",
+      "learning": "Learning",
+      "reference": "Reference"
+    },
+    "facts": "Key Facts",
+    "concepts": "Concepts",
+    "files": "Files",
+    "addToFavorites": "Add to Favorites",
+    "removeFromFavorites": "Remove from Favorites"
+  },
+  "search": {
+    "placeholder": "Search observations...",
+    "noResults": "No results found",
+    "resultsCount": "{{count}} results",
+    "filters": {
+      "type": "Type",
+      "project": "Project",
+      "dateRange": "Date Range",
+      "favorites": "Favorites Only"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "appearance": "Appearance",
+    "advanced": "Advanced",
+    "theme": {
+      "label": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "language": {
+      "label": "Language"
+    },
+    "provider": {
+      "label": "AI Provider",
+      "claude": "Claude",
+      "gemini": "Gemini",
+      "openrouter": "OpenRouter"
+    },
+    "mode": {
+      "label": "Observation Mode"
+    },
+    "port": {
+      "label": "Server Port"
+    },
+    "saved": "Settings saved"
+  },
+  "export": {
+    "title": "Export Data",
+    "format": "Format",
+    "dateRange": "Date Range",
+    "project": "Project",
+    "includeObservations": "Include Observations",
+    "includeSummaries": "Include Summaries",
+    "download": "Download"
+  },
+  "stats": {
+    "title": "Statistics",
+    "totalObservations": "Total Observations",
+    "totalSessions": "Total Sessions",
+    "totalProjects": "Projects",
+    "tokensUsed": "Tokens Used",
+    "byType": "By Type",
+    "byProject": "By Project",
+    "overTime": "Over Time"
+  },
+  "errors": {
+    "generic": "Something went wrong",
+    "notFound": "Not found",
+    "networkError": "Network error",
+    "serverError": "Server error",
+    "unauthorized": "Unauthorized"
+  },
+  "time": {
+    "justNow": "Just now",
+    "minutesAgo": "{{count}} minutes ago",
+    "hoursAgo": "{{count}} hours ago",
+    "daysAgo": "{{count}} days ago",
+    "weeksAgo": "{{count}} weeks ago"
+  }
+}
