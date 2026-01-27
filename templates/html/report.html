@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>claude-recall Report - {{project}}</title>
+  <style>
+    :root {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --text-primary: #e6edf3;
+      --text-secondary: #8b949e;
+      --accent: #58a6ff;
+      --border: #30363d;
+      --success: #3fb950;
+      --warning: #d29922;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 2rem;
+    }
+    
+    .container { max-width: 1200px; margin: 0 auto; }
+    
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+    
+    .meta { color: var(--text-secondary); font-size: 0.9rem; }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    
+    .stat-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+    
+    .stat-value { font-size: 2rem; font-weight: bold; color: var(--accent); }
+    .stat-label { color: var(--text-secondary); font-size: 0.85rem; }
+    
+    .section { margin: 2rem 0; }
+    .section h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .observation {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    
+    .observation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+    
+    .observation-type {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .type-discovery { background: #1f6feb33; color: #58a6ff; }
+    .type-decision { background: #a371f733; color: #a371f7; }
+    .type-implementation { background: #3fb95033; color: #3fb950; }
+    .type-issue { background: #f8514933; color: #f85149; }
+    .type-learning { background: #d2992233; color: #d29922; }
+    
+    .observation-title { font-size: 1.1rem; font-weight: 600; }
+    .observation-subtitle { color: var(--text-secondary); margin-bottom: 0.5rem; }
+    .observation-narrative { margin: 1rem 0; }
+    
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .tag {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+    
+    .files { margin-top: 1rem; }
+    .files code {
+      display: block;
+      background: var(--bg-primary);
+      padding: 0.25rem 0.5rem;
+      margin: 0.25rem 0;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: var(--accent);
+    }
+    
+    .summary-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    
+    .summary-section { margin: 1rem 0; }
+    .summary-section h4 { color: var(--accent); margin-bottom: 0.5rem; }
+    
+    footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    
+    @media print {
+      body { background: white; color: black; }
+      .observation, .stat-card, .summary-card { border-color: #ddd; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>{{project}}</h1>
+      <p class="meta">
+        Generated on {{formatDate now}} | 
+        {{dateRange.start}} to {{dateRange.end}} |
+        {{totalSessions}} sessions
+      </p>
+    </header>
+    
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-value">{{stats.observations}}</div>
+        <div class="stat-label">Observations</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{stats.sessions}}</div>
+        <div class="stat-label">Sessions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{stats.filesModified}}</div>
+        <div class="stat-label">Files Modified</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{formatNumber stats.tokensUsed}}</div>
+        <div class="stat-label">Tokens Used</div>
+      </div>
+    </div>
+    
+    {{#if summary}}
+    <section class="section">
+      <h2>Summary</h2>
+      <div class="summary-card">
+        <div class="summary-section">
+          <h4>Completed</h4>
+          <p>{{summary.completed}}</p>
+        </div>
+        <div class="summary-section">
+          <h4>Key Learnings</h4>
+          <p>{{summary.learned}}</p>
+        </div>
+        <div class="summary-section">
+          <h4>Next Steps</h4>
+          <p>{{summary.nextSteps}}</p>
+        </div>
+      </div>
+    </section>
+    {{/if}}
+    
+    <section class="section">
+      <h2>Observations</h2>
+      {{#each observations}}
+      <div class="observation">
+        <div class="observation-header">
+          <span class="observation-type type-{{this.type}}">{{this.type}}</span>
+          <span class="meta">{{formatDate this.created_at}}</span>
+        </div>
+        <div class="observation-title">{{this.title}}</div>
+        {{#if this.subtitle}}
+        <div class="observation-subtitle">{{this.subtitle}}</div>
+        {{/if}}
+        <div class="observation-narrative">{{this.narrative}}</div>
+        {{#if this.concepts}}
+        <div class="tags">
+          {{#each this.concepts}}
+          <span class="tag">{{this}}</span>
+          {{/each}}
+        </div>
+        {{/if}}
+        {{#if this.files_modified}}
+        <div class="files">
+          <strong>Files:</strong>
+          {{#each this.files_modified}}
+          <code>{{this}}</code>
+          {{/each}}
+        </div>
+        {{/if}}
+      </div>
+      {{/each}}
+    </section>
+    
+    <footer>
+      <p>Generated by claude-recall v{{version}}</p>
+    </footer>
+  </div>
+</body>
+</html>
