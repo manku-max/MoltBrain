@@ -38,8 +38,8 @@ async function buildHooks() {
 
     // Create output directories
     console.log('\n📦 Preparing output directories...');
-    const hooksDir = 'extension/runtime';
-    const uiDir = 'extension/web';
+    const hooksDir = 'plugin/scripts';
+    const uiDir = 'plugin/ui';
 
     if (!fs.existsSync(hooksDir)) {
       fs.mkdirSync(hooksDir, { recursive: true });
@@ -49,7 +49,7 @@ async function buildHooks() {
     }
     console.log('✓ Output directories ready');
 
-    // Generate extension/package.json for cache directory dependency installation
+    // Generate plugin/package.json for cache directory dependency installation
     // Note: bun:sqlite is a Bun built-in, no external dependencies needed for SQLite
     console.log('\n📦 Generating plugin package.json...');
     const pluginPackageJson = {
@@ -64,8 +64,8 @@ async function buildHooks() {
         bun: '>=1.0.0'
       }
     };
-    fs.writeFileSync('extension/package.json', JSON.stringify(pluginPackageJson, null, 2) + '\n');
-    console.log('✓ extension/package.json generated');
+    fs.writeFileSync('plugin/package.json', JSON.stringify(pluginPackageJson, null, 2) + '\n');
+    console.log('✓ plugin/package.json generated');
 
     // Build React viewer
     console.log('\n📋 Building React viewer...');

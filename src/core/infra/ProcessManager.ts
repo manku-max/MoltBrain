@@ -285,20 +285,24 @@ export function spawnDaemon(
   };
 
   if (isWindows) {
-    // Use WMIC to spawn a process that's independent of the parent console
-    // This avoids the console popup that occurs with detached: true
-    // Paths must be individually quoted for WMIC when they contain spaces
+    // Use PowerShell Start-Process instead of WMIC (WMIC deprecated in Windows 11)
+    // This spawns a process that's independent of the parent console
     const execPath = process.execPath;
     const script = scriptPath;
-    // WMIC command format: wmic process call create "\"path1\" \"path2\" args"
-    const command = `wmic process call create "\\"${execPath}\\" \\"${script}\\" --daemon"`;
+    
+    // Escape paths for PowerShell
+    const escapedExecPath = execPath.replace("'", "''");
+    const escapedScript = script.replace("'", "''");
+    
+    // Use PowerShell Start-Process with -WindowStyle Hidden to avoid console popup
+    const command = `powershell -NoProfile -NonInteractive -Command "Start-Process -FilePath '${escapedExecPath}' -ArgumentList '${escapedScript}','--daemon' -WindowStyle Hidden -PassThru | Out-Null"`;
 
     try {
       execSync(command, {
         stdio: 'ignore',
         windowsHide: true
       });
-      // WMIC returns immediately, we can't get the spawned PID easily
+      // PowerShell returns immediately, we can't get the spawned PID easily
       // Worker will write its own PID file after listen()
       return 0;
     } catch {

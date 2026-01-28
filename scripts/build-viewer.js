@@ -21,7 +21,7 @@ async function buildViewer() {
       sourcemap: false,
       target: ['es2020'],
       format: 'iife',
-      outfile: path.join(rootDir, 'extension/web/viewer-bundle.js'),
+      outfile: path.join(rootDir, 'plugin/ui/viewer-bundle.js'),
       jsx: 'automatic',
       loader: {
         '.tsx': 'tsx',
@@ -38,13 +38,13 @@ async function buildViewer() {
       'utf-8'
     );
     fs.writeFileSync(
-      path.join(rootDir, 'extension/web/viewer.html'),
+      path.join(rootDir, 'plugin/ui/viewer.html'),
       htmlTemplate
     );
 
     // Copy font assets
     const fontsDir = path.join(rootDir, 'src/ui/viewer/assets/fonts');
-    const outputFontsDir = path.join(rootDir, 'extension/web/assets/fonts');
+    const outputFontsDir = path.join(rootDir, 'plugin/ui/assets/fonts');
 
     if (fs.existsSync(fontsDir)) {
       fs.mkdirSync(outputFontsDir, { recursive: true });
@@ -59,7 +59,7 @@ async function buildViewer() {
 
     // Copy icon SVG files
     const srcUiDir = path.join(rootDir, 'src/ui');
-    const outputUiDir = path.join(rootDir, 'extension/web');
+    const outputUiDir = path.join(rootDir, 'plugin/ui');
     const iconFiles = fs.readdirSync(srcUiDir).filter(file => file.startsWith('icon-thick-') && file.endsWith('.svg'));
     for (const file of iconFiles) {
       fs.copyFileSync(
@@ -69,9 +69,9 @@ async function buildViewer() {
     }
 
     console.log('✓ React viewer built successfully');
-    console.log('  - extension/web/viewer-bundle.js');
-    console.log('  - extension/web/viewer.html (from viewer-template.html)');
-    console.log('  - extension/web/assets/fonts/* (font files)');
+    console.log('  - plugin/ui/viewer-bundle.js');
+    console.log('  - plugin/ui/viewer.html (from viewer-template.html)');
+    console.log('  - plugin/ui/assets/fonts/* (font files)');
     console.log(`  - extension/web/icon-thick-*.svg (${iconFiles.length} icon files)`);
   } catch (error) {
     console.error('Failed to build viewer:', error);

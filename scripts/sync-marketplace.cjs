@@ -77,7 +77,7 @@ try {
 
   console.log(`Syncing to cache folder (version ${version})...`);
   execSync(
-    `rsync -av --delete --exclude=.git extension/ "${CACHE_VERSION_PATH}/"`,
+    `rsync -av --delete --exclude=.git plugin/ "${CACHE_VERSION_PATH}/"`,
     { stdio: 'inherit' }
   );
 
