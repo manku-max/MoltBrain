@@ -161,8 +161,39 @@ export class WorkerService {
     // Register route handlers
     this.registerRoutes();
 
+    // Register global error handlers early to prevent crashes
+    this.registerErrorHandlers();
+
     // Register signal handlers early to ensure cleanup even if start() hasn't completed
     this.registerSignalHandlers();
+  }
+
+  /**
+   * Register global error handlers to prevent crashes
+   */
+  private registerErrorHandlers(): void {
+    // Handle unhandled promise rejections
+    process.on('unhandledRejection', (reason: unknown, promise: Promise<unknown>) => {
+      logger.error('SYSTEM', 'Unhandled promise rejection', {
+        reason: reason instanceof Error ? reason.message : String(reason),
+        stack: reason instanceof Error ? reason.stack : undefined
+      }, reason instanceof Error ? reason : new Error(String(reason)));
+      // Don't exit - log and continue (most are from fire-and-forget operations)
+    });
+
+    // Handle uncaught exceptions
+    process.on('uncaughtException', (error: Error) => {
+      logger.error('SYSTEM', 'Uncaught exception - performing graceful shutdown', {
+        message: error.message,
+        stack: error.stack
+      }, error);
+      // Attempt graceful shutdown for uncaught exceptions
+      this.shutdown().catch((shutdownError) => {
+        logger.error('SYSTEM', 'Error during shutdown after uncaught exception', {}, shutdownError as Error);
+      }).finally(() => {
+        process.exit(1);
+      });
+    });
   }
 
   /**
