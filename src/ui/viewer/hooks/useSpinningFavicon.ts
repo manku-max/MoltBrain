@@ -2,11 +2,12 @@ import { useEffect, useRef } from 'react';
 
 /**
  * Hook that makes the browser tab favicon spin when isProcessing is true.
- * Uses canvas to draw and rotate a simple icon.
+ * Uses the logo PNG image and rotates it on canvas.
  */
 export function useSpinningFavicon(isProcessing: boolean) {
   const animationRef = useRef<number | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const imageRef = useRef<HTMLImageElement | null>(null);
   const rotationRef = useRef(0);
   const originalFaviconRef = useRef<string | null>(null);
 
@@ -41,24 +42,42 @@ export function useSpinningFavicon(isProcessing: boolean) {
       link.href = dataUrl;
     };
 
-    const drawIcon = (rotation: number) => {
+    // Load logo image
+    const loadLogo = (): Promise<void> => {
+      return new Promise((resolve, reject) => {
+        if (imageRef.current && imageRef.current.complete) {
+          resolve();
+          return;
+        }
+
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          imageRef.current = img;
+          resolve();
+        };
+        img.onerror = () => {
+          // Fallback: if logo fails to load, use original favicon
+          if (originalFaviconRef.current) {
+            updateFavicon(originalFaviconRef.current);
+          }
+          reject(new Error('Failed to load logo'));
+        };
+        img.src = 'logoclauderecall.png';
+      });
+    };
+
+    const drawLogo = (rotation: number) => {
+      if (!imageRef.current) return;
+
       ctx.clearRect(0, 0, 32, 32);
       ctx.save();
       ctx.translate(16, 16);
       ctx.rotate(rotation);
       
-      // Draw a simple lightning bolt icon
-      ctx.fillStyle = '#f59e0b';
-      ctx.beginPath();
-      ctx.moveTo(-4, -12);
-      ctx.lineTo(4, -12);
-      ctx.lineTo(0, -2);
-      ctx.lineTo(6, -2);
-      ctx.lineTo(-2, 12);
-      ctx.lineTo(0, 2);
-      ctx.lineTo(-6, 2);
-      ctx.closePath();
-      ctx.fill();
+      // Draw logo centered, scaled to fit 32x32 canvas
+      const size = 28; // Slightly smaller than canvas for padding
+      ctx.drawImage(imageRef.current, -size / 2, -size / 2, size, size);
       
       ctx.restore();
     };
@@ -66,23 +85,30 @@ export function useSpinningFavicon(isProcessing: boolean) {
     const animate = () => {
       // Rotate by ~4 degrees per frame (matches 1.5s for full rotation at 60fps)
       rotationRef.current += (2 * Math.PI) / 90;
-      drawIcon(rotationRef.current);
+      drawLogo(rotationRef.current);
       updateFavicon(canvas.toDataURL('image/png'));
       animationRef.current = requestAnimationFrame(animate);
     };
 
-    if (isProcessing) {
-      rotationRef.current = 0;
-      animate();
-    } else {
-      // Stop animation and show static icon
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-        animationRef.current = null;
-      }
-      drawIcon(0);
-      updateFavicon(canvas.toDataURL('image/png'));
-    }
+    // Load logo and set up favicon
+    loadLogo()
+      .then(() => {
+        if (isProcessing) {
+          rotationRef.current = 0;
+          animate();
+        } else {
+          // Stop animation and show static logo
+          if (animationRef.current) {
+            cancelAnimationFrame(animationRef.current);
+            animationRef.current = null;
+          }
+          drawLogo(0);
+          updateFavicon(canvas.toDataURL('image/png'));
+        }
+      })
+      .catch(() => {
+        // Logo failed to load, keep original favicon
+      });
 
     return () => {
       if (animationRef.current) {

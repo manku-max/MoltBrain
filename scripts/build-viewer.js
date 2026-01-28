@@ -68,6 +68,16 @@ async function buildViewer() {
       );
     }
 
+    // Copy logo PNG file (from root directory)
+    const logoSourcePath = path.join(rootDir, 'logoclauderecall.png');
+    const logoDestPath = path.join(outputUiDir, 'logoclauderecall.png');
+    if (fs.existsSync(logoSourcePath)) {
+      fs.copyFileSync(logoSourcePath, logoDestPath);
+      console.log('  - plugin/ui/logoclauderecall.png (logo file)');
+    } else {
+      console.warn('  ⚠ Warning: logoclauderecall.png not found at root, skipping copy');
+    }
+
     console.log('✓ React viewer built successfully');
     console.log('  - plugin/ui/viewer-bundle.js');
     console.log('  - plugin/ui/viewer.html (from viewer-template.html)');
