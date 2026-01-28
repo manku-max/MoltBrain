@@ -23,10 +23,8 @@ function getStoredPreference(): ThemePreference {
 }
 
 function resolveTheme(preference: ThemePreference): ResolvedTheme {
-  if (preference === 'system') {
-    return getSystemTheme();
-  }
-  return preference;
+  // Force dark mode only
+  return 'dark';
 }
 
 export function useTheme() {
@@ -42,20 +40,7 @@ export function useTheme() {
     document.documentElement.setAttribute('data-theme', newResolvedTheme);
   }, [preference]);
 
-  // Listen for system theme changes when preference is 'system'
-  useEffect(() => {
-    if (preference !== 'system') return;
-
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e: MediaQueryListEvent) => {
-      const newTheme = e.matches ? 'dark' : 'light';
-      setResolvedTheme(newTheme);
-      document.documentElement.setAttribute('data-theme', newTheme);
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [preference]);
+  // Force dark mode - no system theme listening needed
 
   const setThemePreference = (newPreference: ThemePreference) => {
     try {

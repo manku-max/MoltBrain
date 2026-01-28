@@ -22,7 +22,7 @@ export function App() {
   const { observations, summaries, prompts, projects, isProcessing, queueDepth, isConnected } = useSSE();
   const { settings, saveSettings, isSaving, saveStatus } = useSettings();
   const { stats, refreshStats } = useStats();
-  const { preference, resolvedTheme, setThemePreference } = useTheme();
+  const { resolvedTheme } = useTheme();
   const pagination = usePagination(currentFilter);
 
   // When filtering by project: ONLY use paginated data (API-filtered)
@@ -101,8 +101,6 @@ export function App() {
         onFilterChange={setCurrentFilter}
         isProcessing={isProcessing}
         queueDepth={queueDepth}
-        themePreference={preference}
-        onThemeChange={setThemePreference}
         onContextPreviewToggle={toggleContextPreview}
       />
 

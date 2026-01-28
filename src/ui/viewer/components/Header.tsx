@@ -1,6 +1,4 @@
 import React from 'react';
-import { ThemeToggle } from './ThemeToggle';
-import { ThemePreference } from '../hooks/useTheme';
 import { GitHubStarsButton } from './GitHubStarsButton';
 import { useSpinningFavicon } from '../hooks/useSpinningFavicon';
 
@@ -11,8 +9,6 @@ interface HeaderProps {
   onFilterChange: (filter: string) => void;
   isProcessing: boolean;
   queueDepth: number;
-  themePreference: ThemePreference;
-  onThemeChange: (theme: ThemePreference) => void;
   onContextPreviewToggle: () => void;
 }
 
@@ -23,8 +19,6 @@ export function Header({
   onFilterChange,
   isProcessing,
   queueDepth,
-  themePreference,
-  onThemeChange,
   onContextPreviewToggle
 }: HeaderProps) {
   useSpinningFavicon(isProcessing);
@@ -33,7 +27,12 @@ export function Header({
     <div className="header">
       <h1>
         <div style={{ position: 'relative', display: 'inline-block' }}>
-          <span className={`logo-icon ${isProcessing ? 'spinning' : ''}`}>⚡</span>
+          <img 
+            src="logoclauderecall.png" 
+            alt="claude-recall" 
+            className={`logo-icon ${isProcessing ? 'spinning' : ''}`}
+            style={{ width: '24px', height: '24px', display: 'block' }}
+          />
           {queueDepth > 0 && (
             <div className="queue-bubble">
               {queueDepth}
@@ -53,10 +52,6 @@ export function Header({
             <option key={project} value={project}>{project}</option>
           ))}
         </select>
-        <ThemeToggle
-          preference={themePreference}
-          onThemeChange={onThemeChange}
-        />
         <button
           className="settings-btn"
           onClick={onContextPreviewToggle}

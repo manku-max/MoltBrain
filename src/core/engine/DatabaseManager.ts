@@ -55,6 +55,13 @@ export class DatabaseManager {
   }
 
   /**
+   * Check if database is initialized
+   */
+  isInitialized(): boolean {
+    return this.sessionStore !== null;
+  }
+
+  /**
    * Get SessionStore instance (throws if not initialized)
    */
   getSessionStore(): SessionStore {
