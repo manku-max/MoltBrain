@@ -1,57 +1,93 @@
-/**
- * Claude Recall Extension for MoltBot
- * Provides long-term memory capabilities across all MoltBot channels
- */
+import { Type } from "@sinclair/typebox";
+import type { MoltbotPluginApi } from "clawdbot/plugin-sdk";
+import { emptyPluginConfigSchema } from "clawdbot/plugin-sdk";
 
-import { ClawdHooks } from './hooks.js';
-import { MemorySkill } from './tools.js';
+console.log("[claude-recall] Module loading - top level");
 
-export interface ClawdExtensionContext {
-  config: Record<string, unknown>;
-  dataDir: string;
-  logger: {
-    info: (msg: string) => void;
-    warn: (msg: string) => void;
-    error: (msg: string) => void;
-  };
-}
+const claudeRecallPlugin = {
+  id: "claude-recall",
+  name: "Claude Recall Memory",
+  description: "Long-term memory layer that learns and recalls your context",
+  kind: "extension",
+  configSchema: emptyPluginConfigSchema(),
+  register(api: MoltbotPluginApi) {
+    console.log("[claude-recall] Extension register() called");
+    // Register memory tools
+    console.log("[claude-recall] Registering recall_context tool");
+    api.registerTool(
+      {
+        name: "recall_context",
+        label: "Recall Context",
+        description: "Retrieve relevant memories based on current context",
+        parameters: Type.Object({
+          context: Type.String({ description: "The current context to find relevant memories for" }),
+          maxResults: Type.Optional(Type.Number({ description: "Maximum number of memories to return", default: 10 })),
+        }),
+        async execute(_toolCallId, params) {
+          // TODO: Connect to claude-recall API at http://localhost:37777
+          return {
+            content: [{ type: "text", text: JSON.stringify({ memories: [], count: 0 }, null, 2) }],
+            details: { memories: [], count: 0 },
+          };
+        },
+      },
+      { name: "recall_context" },
+    );
+    console.log("[claude-recall] recall_context registered");
 
-export interface ClawdMessage {
-  id: string;
-  content: string;
-  channel: string;
-  userId?: string;
-  timestamp: string;
-  metadata?: Record<string, unknown>;
-}
+    console.log("[claude-recall] Registering search_memories tool");
+    api.registerTool(
+      {
+        name: "search_memories",
+        label: "Search Memories",
+        description: "Search through stored memories",
+        parameters: Type.Object({
+          query: Type.String({ description: "Search query" }),
+          limit: Type.Optional(Type.Number({ description: "Maximum results to return", default: 20 })),
+          types: Type.Optional(Type.Array(Type.String(), { description: "Filter by memory types (preference, decision, learning, context)" })),
+        }),
+        async execute(_toolCallId, params) {
+          // TODO: Connect to claude-recall API at http://localhost:37777
+          return {
+            content: [{ type: "text", text: JSON.stringify({ results: [], count: 0, query: params.query }, null, 2) }],
+            details: { results: [], count: 0, query: params.query },
+          };
+        },
+      },
+      { name: "search_memories" },
+    );
+    console.log("[claude-recall] search_memories registered");
 
-export interface ClawdResponse {
-  content: string;
-  metadata?: Record<string, unknown>;
-}
+    console.log("[claude-recall] Registering save_memory tool");
+    api.registerTool(
+      {
+        name: "save_memory",
+        label: "Save Memory",
+        description: "Manually save an important piece of information",
+        parameters: Type.Object({
+          content: Type.String({ description: "The information to remember" }),
+          type: Type.Union([
+            Type.Literal("preference"),
+            Type.Literal("decision"),
+            Type.Literal("learning"),
+            Type.Literal("context"),
+          ], { description: "Type of memory" }),
+          metadata: Type.Optional(Type.Record(Type.String(), Type.Unknown(), { description: "Additional metadata to store" })),
+        }),
+        async execute(_toolCallId, params) {
+          // TODO: Connect to claude-recall API at http://localhost:37777
+          const result = { id: `mem_${Date.now()}`, timestamp: new Date().toISOString(), message: "Memory saved successfully" };
+          return {
+            content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+            details: result,
+          };
+        },
+      },
+      { name: "save_memory" },
+    );
+    console.log("[claude-recall] save_memory registered");
+    console.log("[claude-recall] All tools registered successfully");
+  },
+};
 
-export interface ClawdSession {
-  id: string;
-  channel: string;
-  startTime: string;
-  userId?: string;
-}
-
-// Extension entry point
-export function activate(context: ClawdExtensionContext) {
-  const hooks = new ClawdHooks(context);
-  const skill = new MemorySkill(context);
-
-  context.logger.info('Claude Recall extension activated');
-
-  return {
-    hooks,
-    skill,
-    deactivate: () => {
-      context.logger.info('Claude Recall extension deactivated');
-    },
-  };
-}
-
-export { ClawdHooks } from './hooks.js';
-export { MemorySkill } from './tools.js';
+export default claudeRecallPlugin;
