@@ -1,9 +1,9 @@
 /**
- * MoltBot Lifecycle Hooks
- * Integrates claude-recall with MoltBot's agent loop
+ * OpenClaw Lifecycle Hooks
+ * Integrates moltbrain with OpenClaw's agent loop
  */
 
-import type { ClawdExtensionContext, ClawdMessage, ClawdResponse, ClawdSession } from './index.js';
+import type { OpenClawExtensionContext, OpenClawMessage, OpenClawResponse, OpenClawSession } from './index.js';
 
 interface MemoryEntry {
   id: string;
@@ -14,19 +14,19 @@ interface MemoryEntry {
   relevance?: number;
 }
 
-export class ClawdHooks {
-  private context: ClawdExtensionContext;
-  private currentSession: ClawdSession | null = null;
+export class OpenClawHooks {
+  private context: OpenClawExtensionContext;
+  private currentSession: OpenClawSession | null = null;
   private sessionMemories: Map<string, MemoryEntry[]> = new Map();
 
-  constructor(context: ClawdExtensionContext) {
+  constructor(context: OpenClawExtensionContext) {
     this.context = context;
   }
 
   /**
    * Called when a new session starts
    */
-  async onSessionStart(session: ClawdSession): Promise<void> {
+  async onSessionStart(session: OpenClawSession): Promise<void> {
     this.currentSession = session;
     this.context.logger.info(`Session started: ${session.id} on ${session.channel}`);
 
@@ -38,7 +38,7 @@ export class ClawdHooks {
   /**
    * Called when a message is received (before processing)
    */
-  async onMessage(message: ClawdMessage): Promise<{ context?: string }> {
+  async onMessage(message: OpenClawMessage): Promise<{ context?: string }> {
     const sessionId = this.currentSession?.id;
     if (!sessionId) return {};
 
@@ -57,7 +57,7 @@ export class ClawdHooks {
   /**
    * Called after a response is generated
    */
-  async onResponse(message: ClawdMessage, response: ClawdResponse): Promise<void> {
+  async onResponse(message: OpenClawMessage, response: OpenClawResponse): Promise<void> {
     // Extract and save observations from the conversation
     const observations = this.extractObservations(message, response);
 
@@ -73,7 +73,7 @@ export class ClawdHooks {
   /**
    * Called when a session ends
    */
-  async onSessionEnd(session: ClawdSession): Promise<void> {
+  async onSessionEnd(session: OpenClawSession): Promise<void> {
     // Generate session summary if there were significant interactions
     const memories = this.sessionMemories.get(session.id) || [];
     
@@ -87,7 +87,7 @@ export class ClawdHooks {
   }
 
   // Private helper methods
-  private async loadSessionMemories(session: ClawdSession): Promise<MemoryEntry[]> {
+  private async loadSessionMemories(session: OpenClawSession): Promise<MemoryEntry[]> {
     // Load memories relevant to this channel/user
     return [];
   }
@@ -109,7 +109,7 @@ export class ClawdHooks {
     return lines.join('\n');
   }
 
-  private extractObservations(message: ClawdMessage, response: ClawdResponse): MemoryEntry[] {
+  private extractObservations(message: OpenClawMessage, response: OpenClawResponse): MemoryEntry[] {
     const observations: MemoryEntry[] = [];
     const timestamp = new Date().toISOString();
 
@@ -160,7 +160,7 @@ export class ClawdHooks {
   }
 
   private async saveMemory(entry: MemoryEntry): Promise<void> {
-    // Save to claude-recall storage
+    // Save to moltbrain storage
     const sessionId = this.currentSession?.id;
     if (sessionId) {
       const memories = this.sessionMemories.get(sessionId) || [];
@@ -169,7 +169,7 @@ export class ClawdHooks {
     }
   }
 
-  private async generateSessionSummary(session: ClawdSession, memories: MemoryEntry[]): Promise<void> {
+  private async generateSessionSummary(session: OpenClawSession, memories: MemoryEntry[]): Promise<void> {
     // Generate a summary of the session for long-term storage
     this.context.logger.info(`Generating summary for session ${session.id} with ${memories.length} memories`);
   }
