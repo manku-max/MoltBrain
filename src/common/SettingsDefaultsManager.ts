@@ -13,43 +13,43 @@ import { DEFAULT_OBSERVATION_TYPES_STRING, DEFAULT_OBSERVATION_CONCEPTS_STRING }
 // logger.ts depends on SettingsDefaultsManager for its initialization
 
 export interface SettingsDefaults {
-  CLAUDE_RECALL_MODEL: string;
-  CLAUDE_RECALL_CONTEXT_OBSERVATIONS: string;
-  CLAUDE_RECALL_WORKER_PORT: string;
-  CLAUDE_RECALL_WORKER_HOST: string;
-  CLAUDE_RECALL_SKIP_TOOLS: string;
+  MOLTBRAIN_MODEL: string;
+  MOLTBRAIN_CONTEXT_OBSERVATIONS: string;
+  MOLTBRAIN_WORKER_PORT: string;
+  MOLTBRAIN_WORKER_HOST: string;
+  MOLTBRAIN_SKIP_TOOLS: string;
   // AI Provider Configuration
-  CLAUDE_RECALL_PROVIDER: string;  // 'claude' | 'gemini' | 'openrouter'
-  CLAUDE_RECALL_GEMINI_API_KEY: string;
-  CLAUDE_RECALL_GEMINI_MODEL: string;  // 'gemini-2.5-flash-lite' | 'gemini-2.5-flash' | 'gemini-3-flash'
-  CLAUDE_RECALL_GEMINI_RATE_LIMITING_ENABLED: string;  // 'true' | 'false' - enable rate limiting for free tier
-  CLAUDE_RECALL_OPENROUTER_API_KEY: string;
-  CLAUDE_RECALL_OPENROUTER_MODEL: string;
-  CLAUDE_RECALL_OPENROUTER_SITE_URL: string;
-  CLAUDE_RECALL_OPENROUTER_APP_NAME: string;
-  CLAUDE_RECALL_OPENROUTER_MAX_CONTEXT_MESSAGES: string;
-  CLAUDE_RECALL_OPENROUTER_MAX_TOKENS: string;
+  MOLTBRAIN_PROVIDER: string;  // 'claude' | 'gemini' | 'openrouter'
+  MOLTBRAIN_GEMINI_API_KEY: string;
+  MOLTBRAIN_GEMINI_MODEL: string;  // 'gemini-2.5-flash-lite' | 'gemini-2.5-flash' | 'gemini-3-flash'
+  MOLTBRAIN_GEMINI_RATE_LIMITING_ENABLED: string;  // 'true' | 'false' - enable rate limiting for free tier
+  MOLTBRAIN_OPENROUTER_API_KEY: string;
+  MOLTBRAIN_OPENROUTER_MODEL: string;
+  MOLTBRAIN_OPENROUTER_SITE_URL: string;
+  MOLTBRAIN_OPENROUTER_APP_NAME: string;
+  MOLTBRAIN_OPENROUTER_MAX_CONTEXT_MESSAGES: string;
+  MOLTBRAIN_OPENROUTER_MAX_TOKENS: string;
   // System Configuration
-  CLAUDE_RECALL_DATA_DIR: string;
-  CLAUDE_RECALL_LOG_LEVEL: string;
-  CLAUDE_RECALL_PYTHON_VERSION: string;
+  MOLTBRAIN_DATA_DIR: string;
+  MOLTBRAIN_LOG_LEVEL: string;
+  MOLTBRAIN_PYTHON_VERSION: string;
   CLAUDE_CODE_PATH: string;
-  CLAUDE_RECALL_MODE: string;
+  MOLTBRAIN_MODE: string;
   // Token Economics
-  CLAUDE_RECALL_CONTEXT_SHOW_READ_TOKENS: string;
-  CLAUDE_RECALL_CONTEXT_SHOW_WORK_TOKENS: string;
-  CLAUDE_RECALL_CONTEXT_SHOW_SAVINGS_AMOUNT: string;
-  CLAUDE_RECALL_CONTEXT_SHOW_SAVINGS_PERCENT: string;
+  MOLTBRAIN_CONTEXT_SHOW_READ_TOKENS: string;
+  MOLTBRAIN_CONTEXT_SHOW_WORK_TOKENS: string;
+  MOLTBRAIN_CONTEXT_SHOW_SAVINGS_AMOUNT: string;
+  MOLTBRAIN_CONTEXT_SHOW_SAVINGS_PERCENT: string;
   // Observation Filtering
-  CLAUDE_RECALL_CONTEXT_OBSERVATION_TYPES: string;
-  CLAUDE_RECALL_CONTEXT_OBSERVATION_CONCEPTS: string;
+  MOLTBRAIN_CONTEXT_OBSERVATION_TYPES: string;
+  MOLTBRAIN_CONTEXT_OBSERVATION_CONCEPTS: string;
   // Display Configuration
-  CLAUDE_RECALL_CONTEXT_FULL_COUNT: string;
-  CLAUDE_RECALL_CONTEXT_FULL_FIELD: string;
-  CLAUDE_RECALL_CONTEXT_SESSION_COUNT: string;
+  MOLTBRAIN_CONTEXT_FULL_COUNT: string;
+  MOLTBRAIN_CONTEXT_FULL_FIELD: string;
+  MOLTBRAIN_CONTEXT_SESSION_COUNT: string;
   // Feature Toggles
-  CLAUDE_RECALL_CONTEXT_SHOW_LAST_SUMMARY: string;
-  CLAUDE_RECALL_CONTEXT_SHOW_LAST_MESSAGE: string;
+  MOLTBRAIN_CONTEXT_SHOW_LAST_SUMMARY: string;
+  MOLTBRAIN_CONTEXT_SHOW_LAST_MESSAGE: string;
 }
 
 export class SettingsDefaultsManager {
@@ -57,43 +57,43 @@ export class SettingsDefaultsManager {
    * Default values for all settings
    */
   private static readonly DEFAULTS: SettingsDefaults = {
-    CLAUDE_RECALL_MODEL: 'claude-sonnet-4-5',
-    CLAUDE_RECALL_CONTEXT_OBSERVATIONS: '50',
-    CLAUDE_RECALL_WORKER_PORT: '37777',
-    CLAUDE_RECALL_WORKER_HOST: '127.0.0.1',
-    CLAUDE_RECALL_SKIP_TOOLS: 'ListMcpResourcesTool,SlashCommand,Skill,TodoWrite,AskUserQuestion',
+    MOLTBRAIN_MODEL: 'claude-sonnet-4-5',
+    MOLTBRAIN_CONTEXT_OBSERVATIONS: '50',
+    MOLTBRAIN_WORKER_PORT: '37777',
+    MOLTBRAIN_WORKER_HOST: '127.0.0.1',
+    MOLTBRAIN_SKIP_TOOLS: 'ListMcpResourcesTool,SlashCommand,Skill,TodoWrite,AskUserQuestion',
     // AI Provider Configuration
-    CLAUDE_RECALL_PROVIDER: 'claude',  // Default to Claude
-    CLAUDE_RECALL_GEMINI_API_KEY: '',  // Empty by default, can be set via UI or env
-    CLAUDE_RECALL_GEMINI_MODEL: 'gemini-2.5-flash-lite',  // Default Gemini model (highest free tier RPM)
-    CLAUDE_RECALL_GEMINI_RATE_LIMITING_ENABLED: 'true',  // Rate limiting ON by default for free tier users
-    CLAUDE_RECALL_OPENROUTER_API_KEY: '',  // Empty by default, can be set via UI or env
-    CLAUDE_RECALL_OPENROUTER_MODEL: 'xiaomi/mimo-v2-flash:free',  // Default OpenRouter model (free tier)
-    CLAUDE_RECALL_OPENROUTER_SITE_URL: '',  // Optional: for OpenRouter analytics
-    CLAUDE_RECALL_OPENROUTER_APP_NAME: 'claude-recall',  // App name for OpenRouter analytics
-    CLAUDE_RECALL_OPENROUTER_MAX_CONTEXT_MESSAGES: '20',  // Max messages in context window
-    CLAUDE_RECALL_OPENROUTER_MAX_TOKENS: '100000',  // Max estimated tokens (~100k safety limit)
+    MOLTBRAIN_PROVIDER: 'claude',  // Default to Claude
+    MOLTBRAIN_GEMINI_API_KEY: '',  // Empty by default, can be set via UI or env
+    MOLTBRAIN_GEMINI_MODEL: 'gemini-2.5-flash-lite',  // Default Gemini model (highest free tier RPM)
+    MOLTBRAIN_GEMINI_RATE_LIMITING_ENABLED: 'true',  // Rate limiting ON by default for free tier users
+    MOLTBRAIN_OPENROUTER_API_KEY: '',  // Empty by default, can be set via UI or env
+    MOLTBRAIN_OPENROUTER_MODEL: 'xiaomi/mimo-v2-flash:free',  // Default OpenRouter model (free tier)
+    MOLTBRAIN_OPENROUTER_SITE_URL: '',  // Optional: for OpenRouter analytics
+    MOLTBRAIN_OPENROUTER_APP_NAME: 'moltbrain',  // App name for OpenRouter analytics
+    MOLTBRAIN_OPENROUTER_MAX_CONTEXT_MESSAGES: '20',  // Max messages in context window
+    MOLTBRAIN_OPENROUTER_MAX_TOKENS: '100000',  // Max estimated tokens (~100k safety limit)
     // System Configuration
-    CLAUDE_RECALL_DATA_DIR: join(homedir(), '.claude-recall'),
-    CLAUDE_RECALL_LOG_LEVEL: 'INFO',
-    CLAUDE_RECALL_PYTHON_VERSION: '3.13',
+    MOLTBRAIN_DATA_DIR: join(homedir(), '.moltbrain'),
+    MOLTBRAIN_LOG_LEVEL: 'INFO',
+    MOLTBRAIN_PYTHON_VERSION: '3.13',
     CLAUDE_CODE_PATH: '', // Empty means auto-detect via 'which claude'
-    CLAUDE_RECALL_MODE: 'code', // Default mode profile
+    MOLTBRAIN_MODE: 'code', // Default mode profile
     // Token Economics
-    CLAUDE_RECALL_CONTEXT_SHOW_READ_TOKENS: 'true',
-    CLAUDE_RECALL_CONTEXT_SHOW_WORK_TOKENS: 'true',
-    CLAUDE_RECALL_CONTEXT_SHOW_SAVINGS_AMOUNT: 'true',
-    CLAUDE_RECALL_CONTEXT_SHOW_SAVINGS_PERCENT: 'true',
+    MOLTBRAIN_CONTEXT_SHOW_READ_TOKENS: 'true',
+    MOLTBRAIN_CONTEXT_SHOW_WORK_TOKENS: 'true',
+    MOLTBRAIN_CONTEXT_SHOW_SAVINGS_AMOUNT: 'true',
+    MOLTBRAIN_CONTEXT_SHOW_SAVINGS_PERCENT: 'true',
     // Observation Filtering
-    CLAUDE_RECALL_CONTEXT_OBSERVATION_TYPES: DEFAULT_OBSERVATION_TYPES_STRING,
-    CLAUDE_RECALL_CONTEXT_OBSERVATION_CONCEPTS: DEFAULT_OBSERVATION_CONCEPTS_STRING,
+    MOLTBRAIN_CONTEXT_OBSERVATION_TYPES: DEFAULT_OBSERVATION_TYPES_STRING,
+    MOLTBRAIN_CONTEXT_OBSERVATION_CONCEPTS: DEFAULT_OBSERVATION_CONCEPTS_STRING,
     // Display Configuration
-    CLAUDE_RECALL_CONTEXT_FULL_COUNT: '5',
-    CLAUDE_RECALL_CONTEXT_FULL_FIELD: 'narrative',
-    CLAUDE_RECALL_CONTEXT_SESSION_COUNT: '10',
+    MOLTBRAIN_CONTEXT_FULL_COUNT: '5',
+    MOLTBRAIN_CONTEXT_FULL_FIELD: 'narrative',
+    MOLTBRAIN_CONTEXT_SESSION_COUNT: '10',
     // Feature Toggles
-    CLAUDE_RECALL_CONTEXT_SHOW_LAST_SUMMARY: 'true',
-    CLAUDE_RECALL_CONTEXT_SHOW_LAST_MESSAGE: 'false',
+    MOLTBRAIN_CONTEXT_SHOW_LAST_SUMMARY: 'true',
+    MOLTBRAIN_CONTEXT_SHOW_LAST_MESSAGE: 'false',
   };
 
   /**
