@@ -1,11 +1,11 @@
 {
-  "$schema": "https://molt.bot/schemas/skill.json",
-  "name": "claude-recall",
+  "$schema": "https://openclaw.ai/schemas/skill.json",
+  "name": "moltbrain",
   "version": "1.0.0",
-  "displayName": "Claude Recall Memory",
+  "displayName": "MoltBrain Memory",
   "description": "Long-term memory layer that learns and recalls your project context automatically",
   "author": "nhevers",
-  "repository": "https://github.com/nhevers/claude-recall",
+  "repository": "https://github.com/nhevers/moltbrain",
   "license": "MIT",
   "category": "memory",
   "tags": ["memory", "context", "recall", "learning"],
@@ -28,7 +28,7 @@
     "dataDir": {
       "type": "string",
       "description": "Directory to store memory data",
-      "default": ".claude-recall"
+      "default": ".moltbrain"
     },
     "maxMemories": {
       "type": "number",
@@ -61,6 +61,6 @@
     }
   ],
   "dependencies": {
-    "moltbot": ">=2026.1.0"
+    "openclaw": ">=2026.1.0"
   }
 }

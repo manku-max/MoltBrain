@@ -1,5 +1,5 @@
 {
-  "id": "claude-recall",
+  "id": "moltbrain",
   "kind": "extension",
   "configSchema": {
     "type": "object",
@@ -8,7 +8,7 @@
       "dataDir": {
         "type": "string",
         "description": "Directory to store memory data",
-        "default": ".claude-recall"
+        "default": ".moltbrain"
       },
       "maxMemories": {
         "type": "number",
